@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
-    protected $guarded = [];
     /**
      * Run the migrations.
      *
@@ -15,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ratings', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            // $table->bigInteger("user_id");
-            $table->foreignId('ticket_id')->constrained();
+            $table->string('type',2);
+            $table->text('desc')->nullable();
+            $table->string('name', 100)->nullable()->default('customer');
+            $table->string('no_hp', 12)->nullable();
             $table->foreignId('user_id')->constrained();
-            $table->string("email_cust");
-            $table->integer("star");
-            $table->integer("coin_tip");
-            $table->text("comment")->nullable();
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ratings');
+        Schema::dropIfExists('tickets');
     }
 };

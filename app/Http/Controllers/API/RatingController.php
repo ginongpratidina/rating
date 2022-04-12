@@ -30,7 +30,8 @@ class RatingController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'user_id' => 'required|string|max:255',
+            'ticket_id' => 'required|numeric',
+            'user_id' => 'required|numeric',
             'email_cust' => 'required|email|max:255',
             'star' => 'required|numeric',
             'coin_tip' => 'required|numeric'
@@ -41,6 +42,7 @@ class RatingController extends Controller
         }
 
         $rating = Rating::create([
+            'ticket_id' => $request->ticket_id,
             'user_id' => $request->user_id,
             'email_cust' => $request->email_cust,
             'star' => $request->star,
@@ -86,6 +88,7 @@ class RatingController extends Controller
             return response()->json($validator->errors());       
         }
 
+        $rating->ticket_id = $request->ticket_id;
         $rating->user_id = $request->user_id;
         $rating->email_cust = $request->email_cust;
         $rating->start = $request->star;
