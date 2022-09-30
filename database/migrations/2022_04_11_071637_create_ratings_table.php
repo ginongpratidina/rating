@@ -18,11 +18,11 @@ return new class extends Migration
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             // $table->bigInteger("user_id");
-            $table->foreignId('ticket_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->string("email_cust");
+            $table->foreignId('noticket')->constrained('tickets');
+            // $table->foreignId('user_id')->constrained();
+            // $table->string("email_cust");
             $table->integer("star");
-            $table->integer("coin_tip");
+            // $table->integer("coin_tip");
             $table->text("comment")->nullable();
             $table->timestamps();
         });
