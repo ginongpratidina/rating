@@ -18,7 +18,9 @@ return new class extends Migration
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             // $table->bigInteger("user_id");
-            $table->foreignId('noticket')->constrained('tickets');
+            // $table->foreignId('noticket')->constrained('tickets');
+            $table->string('ticket_id', 8);
+            $table->foreign('ticket_id')->references('noticket')->on('tickets')->onUpdate('cascade')->onDelete('cascade');
             // $table->foreignId('user_id')->constrained();
             // $table->string("email_cust");
             $table->integer("star");

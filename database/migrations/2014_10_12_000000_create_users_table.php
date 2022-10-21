@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('img_url');
+            $table->boolean('verified')->default(0)->comment('0=False, 1=True');
             $table->rememberToken();
             $table->timestamps();
         });
