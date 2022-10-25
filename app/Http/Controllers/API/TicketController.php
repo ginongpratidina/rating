@@ -30,20 +30,34 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'type' => 'required|string|max:2',
-            'user_id' => 'required|numeric'
+            'name' => 'required|string|max:25',
+            'nohp' => 'required|string|max:12',
+            'job' => 'required|string|max:25',
+            'institution' => 'required|string|max:150',
+            'necessity' => 'required',
+            'bersedia' => 'required|string|max:1',
+            'status' => 'required|string|max:1',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
+        /* 
+        *   Function to generate random alphanumeric 5 digit
+        */
+        $char_basket = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $uniq_id = substr(str_shuffle($char_basket),0,5);
+
         $ticket = Ticket::create([
-            'type' => $request->type,
-            'desc' => $request->desc,
+            'noticket' => $uniq_id.'-'.substr(date("Y"),2), // get last two digit of current year
             'name' => $request->name,
-            'no_hp' => $request->no_hp,
-            'user_id' => $request->user_id,
+            'nohp' => $request->nohp,
+            'job' => $request->job,
+            'institution' => $request->institution,
+            'necessity' => $request->necessity,
+            'bersedia' => $request->bersedia,
+            'status' => $request->status,
          ]);
         
         return response()->json(['Ticket created successfully.', new TicketResource($ticket)]);

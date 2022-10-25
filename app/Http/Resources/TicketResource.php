@@ -16,12 +16,14 @@ class TicketResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'type' => $this->type,
-            'desc' => $this->desc,
+            'noticket' => $this->noticket,
             'name' => $this->name,
-            'no_hp' => $this->no_hp,
-            'user_id' => $this->user_id,
+            'nohp' => $this->nohp,
+            'job' => $this->job,
+            'institution' => $this->institution,
+            'necessity' => $this->necessity,
+            'bersedia' => $this->bersedia,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

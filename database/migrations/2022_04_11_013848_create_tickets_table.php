@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('necessity')->nullable();
             $table->string('bersedia',1)->comment('Bersedia untuk dihubungi kembali sebagai responden survei layanan');
             // $table->bigInteger('user_id');
-            $table->tinyInteger('status')->default(0)->comment('0=open, 1=onProgress, 9=closed');
+            $table->string('status',1)->default(0)->comment('0=open, 1=onProgress, 9=closed');
             $table->primary('noticket');
             // $table->bigIncrements('user_id')->default('0')->comment('sengaja tidak dibuat foreignkey karena jika tiket di-create oleh tamu tidak ada id yg dirujuk pada tabel user');
             $table->timestamps();
