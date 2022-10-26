@@ -30,11 +30,8 @@ class RatingController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ticket_id' => 'required|numeric',
-            'user_id' => 'required|numeric',
-            'email_cust' => 'required|email|max:255',
-            'star' => 'required|numeric',
-            'coin_tip' => 'required|numeric'
+            'ticket_id' => 'required|string|max:10',
+            'star' => 'required',
         ]);
 
         if($validator->fails()){
@@ -43,14 +40,12 @@ class RatingController extends Controller
 
         $rating = Rating::create([
             'ticket_id' => $request->ticket_id,
-            'user_id' => $request->user_id,
-            'email_cust' => $request->email_cust,
             'star' => $request->star,
-            'coin_tip' => $request->coin_tip,
             'comment' => $request->comment,
          ]);
         
-        return response()->json(['Rating created successfully.', new RatingResource($rating)]);
+        // return response()->json(['message'=>'Rating created successfully.', 'details' => new RatingResource($rating)]);
+        return response()->json(['message'=>'Rating created successfully.']);
     }
 
     /**
@@ -78,10 +73,12 @@ class RatingController extends Controller
     public function update(Request $request, Rating $rating)
     {
         $validator = Validator::make($request->all(),[
-            'user_id' => 'required|string|max:255',
-            'email_cust' => 'required|email|max:255',
-            'star' => 'required|numeric',
-            'coin_tip' => 'required|numeric',
+            // 'user_id' => 'required|string|max:255',
+            // 'email_cust' => 'required|email|max:255',
+            'ticket_id' => 'required|string|max:10',
+            'star' => 'required',
+            'comment' => 'required',
+            // 'coin_tip' => 'required|numeric',
         ]);
 
         if($validator->fails()){

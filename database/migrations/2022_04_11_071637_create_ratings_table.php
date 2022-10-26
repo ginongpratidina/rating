@@ -17,14 +17,9 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            // $table->bigInteger("user_id");
-            // $table->foreignId('noticket')->constrained('tickets');
-            $table->string('ticket_id', 8);
+            $table->string('ticket_id', 10);
             $table->foreign('ticket_id')->references('noticket')->on('tickets')->onUpdate('cascade')->onDelete('cascade');
-            // $table->foreignId('user_id')->constrained();
-            // $table->string("email_cust");
-            $table->integer("star");
-            // $table->integer("coin_tip");
+            $table->float("star",2,1);  // 2 total digits with scale 1 decimal digit 
             $table->text("comment")->nullable();
             $table->timestamps();
         });

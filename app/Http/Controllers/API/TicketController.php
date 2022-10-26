@@ -35,8 +35,8 @@ class TicketController extends Controller
             'job' => 'required|string|max:25',
             'institution' => 'required|string|max:150',
             'necessity' => 'required',
-            'bersedia' => 'required|string|max:1',
-            'status' => 'required|string|max:1',
+            'bersedia' => 'required|max:1',
+            'status' => 'required|max:1',
         ]);
 
         if($validator->fails()){
@@ -48,9 +48,11 @@ class TicketController extends Controller
         */
         $char_basket = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $uniq_id = substr(str_shuffle($char_basket),0,5);
+        $month = date("m");
+        $year2D = substr(date("Y"),2);
 
         $ticket = Ticket::create([
-            'noticket' => $uniq_id.'-'.substr(date("Y"),2), // get last two digit of current year
+            'noticket' => $uniq_id.'.'.$month.$year2D, // get last two digit of current year
             'name' => $request->name,
             'nohp' => $request->nohp,
             'job' => $request->job,
@@ -60,7 +62,7 @@ class TicketController extends Controller
             'status' => $request->status,
          ]);
         
-        return response()->json(['Ticket created successfully.', new TicketResource($ticket)]);
+        return response()->json(['message' => 'Ticket created successfully.', 'detail' => new TicketResource($ticket)]);
     }
 
     /**
