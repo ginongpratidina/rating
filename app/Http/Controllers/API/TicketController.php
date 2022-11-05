@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Ticket;
 use App\Http\Resources\TicketResource;
+use App\Events\TicketCreated;
 
 class TicketController extends Controller
 {
@@ -61,7 +62,11 @@ class TicketController extends Controller
             'bersedia' => $request->bersedia,
             'status' => $request->status,
          ]);
-        
+
+        // Trigger event ti dispatch into listener (listener will call in vue through ListGuestController::class, 'index')
+        // TicketCreated::dispatch();
+        broadcast(new TicketCreated($ticket));
+
         return response()->json(['message' => 'Ticket created successfully.', 'detail' => new TicketResource($ticket)]);
     }
 
