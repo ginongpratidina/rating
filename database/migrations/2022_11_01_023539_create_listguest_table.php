@@ -17,10 +17,15 @@ return new class extends Migration
         //     $table->id();
         //     $table->timestamps();
         // });
-        $query = 'CREATE VIEW v_list_guest
+        /* $query = 'CREATE VIEW v_list_guest
         AS SELECT t.noticket, t.status,t.created_at,t.name,t.nohp,t.necessity,u.name AS serveBy
         FROM tickets t
         LEFT JOIN progress_logs p ON t.noticket=p.ticket_id
+        LEFT JOIN users u ON p.user_id=u.id'; */
+        $query = 'CREATE VIEW v_list_guest
+        AS SELECT t.noticket, t.status,t.created_at,t.name,t.nohp,t.necessity,u.name AS serveBy
+        FROM tickets t
+        LEFT JOIN (SELECT DISTINCT `ticket_id`, `user_id` FROM `progress_logs` GROUP BY `ticket_id`,`user_id`) p ON t.noticket=p.ticket_id
         LEFT JOIN users u ON p.user_id=u.id';
         DB::statement($query);
     }

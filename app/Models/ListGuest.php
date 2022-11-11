@@ -14,5 +14,5 @@ class ListGuest extends Model
      *
      * @var string
      */
-    protected $table = 'v_list_guest';
+    protected $table = 'v_list_guest_test';
 }
