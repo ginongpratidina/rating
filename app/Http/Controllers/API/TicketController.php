@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\Ticket;
+use App\Models\ProgressLog;
 use App\Http\Resources\TicketResource;
 use App\Events\TicketCreated;
 
@@ -51,9 +52,10 @@ class TicketController extends Controller
         $uniq_id = substr(str_shuffle($char_basket),0,5);
         $month = date("m");
         $year2D = substr(date("Y"),2);
+        $noticket = $uniq_id.'.'.$month.$year2D; // get last two digit of current year
 
         $ticket = Ticket::create([
-            'noticket' => $uniq_id.'.'.$month.$year2D, // get last two digit of current year
+            'noticket' => $noticket,
             'name' => $request->name,
             'nohp' => $request->nohp,
             'job' => $request->job,
@@ -62,6 +64,11 @@ class TicketController extends Controller
             'bersedia' => $request->bersedia,
             'status' => $request->status,
          ]);
+
+        $log = new ProgressLog;
+        $log->ticket_id = $noticket;
+        $log->note = 'Tiket berhasil diajukan.';
+        $log->save();
 
         // Trigger event ti dispatch into listener (listener will call in vue through ListGuestController::class, 'index')
         // TicketCreated::dispatch();
