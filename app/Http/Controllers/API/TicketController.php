@@ -95,22 +95,20 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         $validator = Validator::make($request->all(),[
-            'type' => 'required|string|max:2',
-            'user_id' => 'required|numeric'
+            // 'noticket' => 'required|string|max:10',
+            'status' => 'required|max:1',
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors());       
+            return response()->json($validator->errors(), 422);       
         }
 
-        $ticket->type = $request->type;
-        $ticket->desc = $request->desc;
-        $ticket->name = $request->name;
-        $ticket->no_hp = $request->no_hp;
-        $ticket->user_id = $request->user_id;
-        $ticket->save();
+        // update ticket status
+        $ticket->update([
+            'status' => $request->status
+        ]);
         
-        return response()->json(['Ticket updated successfully.', new TicketResource($ticket)]);
+        return response()->json(['Ticket status updated successfully.', new TicketResource($ticket)]);
     }
 
     /**

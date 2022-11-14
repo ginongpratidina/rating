@@ -10,4 +10,5 @@ class Ticket extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $primaryKey = 'noticket';  //it's important to initiate PK if your PK's name doesn't meet the name convention 
 }
