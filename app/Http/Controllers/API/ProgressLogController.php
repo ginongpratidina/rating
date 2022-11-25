@@ -49,6 +49,18 @@ class ProgressLogController extends Controller
     }
 
     /**
+     * Display the specified resource based on ticket_id.
+     *
+     * @param  \App\Models\ProgressLog  $progressLog
+     * @return \Illuminate\Http\Response
+     */
+    public function showLogs($ticket_id)
+    {
+        $dataLogs = ProgressLog::findOrfail($ticket_id);
+        return response()->json(['logs' => $dataLogs]);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\ProgressLog  $progressLog
@@ -56,7 +68,7 @@ class ProgressLogController extends Controller
      */
     public function show(ProgressLog $progressLog)
     {
-        //
+        return response()->json([ProgressLogResource::collection($progressLog)]);
     }
 
     /**

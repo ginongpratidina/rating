@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 //API route for login user
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
+//API route to fetch spesific ticket's logs
+Route::get('/progresslogs/show/{ticket_id}', [App\Http\Controllers\API\ProgressLogController::class, 'showLogs']);
+Route::resource('progresslogs', App\Http\Controllers\API\ProgressLogController::class);
+
 Route::resource('tickets', App\Http\Controllers\API\TicketController::class)->only([
     'store', 'show'
 ]);
@@ -40,6 +44,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         'index', 'update', 'destroy'
     ]);
 
-    Route::resource('progresslogs', App\Http\Controllers\API\ProgressLogController::class);
     Route::resource('listguests', App\Http\Controllers\API\ListGuestController::class);
 });
