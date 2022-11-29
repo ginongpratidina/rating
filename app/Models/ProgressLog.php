@@ -9,4 +9,8 @@ class ProgressLog extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    protected $fillable = [
+        'ticket_id->enabled',
+    ];    
 }

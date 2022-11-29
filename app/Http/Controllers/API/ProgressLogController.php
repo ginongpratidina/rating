@@ -56,7 +56,8 @@ class ProgressLogController extends Controller
      */
     public function showLogs($ticket_id)
     {
-        $dataLogs = ProgressLog::findOrfail($ticket_id);
+        // $dataLogs = ProgressLog::findOrfail($ticket_id);
+        $dataLogs = ProgressLog::where('ticket_id', '=', $ticket_id)->orderBy('created_at', 'desc')->get();
         return response()->json(['logs' => $dataLogs]);
     }
 

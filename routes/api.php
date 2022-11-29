@@ -19,7 +19,7 @@ Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'regis
 //API route for login user
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 //API route to fetch spesific ticket's logs
-Route::get('/progresslogs/show/{ticket_id}', [App\Http\Controllers\API\ProgressLogController::class, 'showLogs']);
+Route::get('/progresslogs/showLogs/{ticket_id}', [App\Http\Controllers\API\ProgressLogController::class, 'showLogs'])->name('progresslogs.showlogs');
 Route::resource('progresslogs', App\Http\Controllers\API\ProgressLogController::class);
 
 Route::resource('tickets', App\Http\Controllers\API\TicketController::class)->only([
