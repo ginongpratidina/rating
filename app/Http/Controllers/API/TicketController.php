@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Ticket;
 use App\Models\ProgressLog;
 use App\Http\Resources\TicketResource;
@@ -31,7 +31,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:25',
             'nohp' => 'required|string|max:12',
             'job' => 'required|string|max:25',
@@ -41,18 +41,18 @@ class TicketController extends Controller
             'status' => 'required|max:1',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
 
-        /* 
+        /*
         *   Function to generate random alphanumeric 5 digit
         */
         $char_basket = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $uniq_id = substr(str_shuffle($char_basket),0,5);
+        $uniq_id = substr(str_shuffle($char_basket), 0, 5);
         $month = date("m");
-        $year2D = substr(date("Y"),2);
-        $noticket = $uniq_id.'.'.$month.$year2D; // get last two digit of current year
+        $year2D = substr(date("Y"), 2);
+        $noticket = $uniq_id . '.' . $month . $year2D; // get last two digit of current year
 
         $ticket = Ticket::create([
             'noticket' => $noticket,
@@ -63,7 +63,7 @@ class TicketController extends Controller
             'necessity' => $request->necessity,
             'bersedia' => $request->bersedia,
             'status' => $request->status,
-         ]);
+        ]);
 
         $log = new ProgressLog;
         $log->ticket_id = $noticket;
@@ -87,7 +87,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
         if (is_null($ticket)) {
-            return response()->json('Data not found', 404); 
+            return response()->json('Data not found', 404);
         }
         return response()->json([new TicketResource($ticket)]);
     }
@@ -101,20 +101,20 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             // 'noticket' => 'required|string|max:10',
             'status' => 'required|max:1',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors(), 422);       
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
 
         // update ticket status
         $ticket->update([
             'status' => $request->status
         ]);
-        
+
         return response()->json(['Ticket status updated successfully.', new TicketResource($ticket)]);
     }
 
